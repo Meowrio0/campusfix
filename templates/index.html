@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusFix - Incident Reporting & Resolution Platform | National Taipei University</title>
+    <!-- Crisp academic typography aligned with NTPU official web portal standards -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- NTPU Top Utility Bar (Identical layout to https://new.ntpu.edu.tw/students) -->
+    <div class="ntpu-top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <a href="#main-content" class="top-nav-link skip-link">::: Skip to Content (Alt+C)</a>
+                <span class="top-divider">|</span>
+                <span class="top-static-item">Campus Safety</span>
+                <span class="top-divider">|</span>
+                <span class="top-static-item">Campus Directory</span>
+                <span class="top-divider">|</span>
+                <span class="top-static-item">Academic Calendar</span>
+                <span class="top-divider">|</span>
+                <span class="top-static-item">Site Map</span>
+            </div>
+            <div class="top-bar-right">
+                <span class="audience-tag active">Current Students</span>
+                <span class="top-divider">|</span>
+                <span class="audience-tag">International Students</span>
+                <span class="top-divider">|</span>
+                <span class="audience-tag">Alumni</span>
+                <span class="top-divider">|</span>
+                <span class="audience-tag">Faculty & Staff</span>
+                <span class="top-divider">|</span>
+                <span class="audience-tag">Visitors</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official NTPU Main Navigation Header -->
+    <header class="ntpu-main-header">
+        <div class="container header-flex">
+            <!-- Official Brand Identity with Authentic Vector Swoosh Emblem -->
+            <a href="/" class="brand-link" title="National Taipei University - CampusFix">
+                <div class="brand-logo-wrap">
+                    <!-- Accurate Multi-Color NTPU Feathers Emblem (Blue, Orange, Red, Green) -->
+                    <svg class="ntpu-logo-svg" viewBox="0 0 140 80" width="70" height="40" aria-label="NTPU Kite Emblem">
+                        <path d="M15 50 C25 20, 50 15, 75 30 C50 25, 30 35, 15 50 Z" fill="#005BAC" />
+                        <path d="M22 55 C35 30, 65 22, 90 40 C65 32, 40 42, 22 55 Z" fill="#F58220" />
+                        <path d="M28 60 C45 38, 75 32, 100 50 C75 42, 48 50, 28 60 Z" fill="#E60012" />
+                        <path d="M35 65 C55 48, 85 42, 115 60 C85 52, 58 58, 35 65 Z" fill="#009944" />
+                    </svg>
+                </div>
+                <div class="brand-text-col">
+                    <div class="univ-title">National Taipei University</div>
+                    <div class="system-title">CampusFix Incident Resolution Platform</div>
+                </div>
+            </a>
+
+            <!-- Header Navigation Menu with Dropdown Indicators -->
+            <nav class="ntpu-main-nav">
+                <ul class="main-menu">
+                    <li class="menu-item"><a href="javascript:void(0)" onclick="switchTab('tab-search-track')">Search & Track</a></li>
+                    <li class="menu-item"><a href="javascript:void(0)" onclick="switchTab('tab-report')">Report Issue</a></li>
+                    <li class="menu-item"><a href="javascript:void(0)" onclick="switchTab('tab-staff')">Staff Portal</a></li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" class="dropdown-trigger" onclick="toggleDropdown()">
+                            About NTPU <span class="arrow-down">&#9662;</span>
+                        </a>
+                        <!-- Mega Menu matching the dark dropdown in the screenshot -->
+                        <div id="ntpu-mega-menu" class="mega-dropdown d-none">
+                            <div class="mega-col">
+                                <h4>Colleges</h4>
+                                <ul>
+                                    <li>College of Law</li>
+                                    <li>College of Business</li>
+                                    <li>College of Public Affairs</li>
+                                    <li>College of Social Sciences</li>
+                                    <li>College of Humanities</li>
+                                    <li>College of EECS</li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h4>Research Centers</h4>
+                                <ul>
+                                    <li>Global Sustainability Center</li>
+                                    <li>Asia-Pacific Studies Center</li>
+                                    <li>Finance & Tech Lab</li>
+                                    <li>Big Data & Smart City Center</li>
+                                </ul>
+                            </div>
+                            <div class="mega-col">
+                                <h4>Support & Campus</h4>
+                                <ul>
+                                    <li>General Affairs Facility Division</li>
+                                    <li>Language Center</li>
+                                    <li>IT & Network Infrastructure</li>
+                                    <li>Counseling & Student Care</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <!-- Clean Institutional User Account Widget (No colorful bubble / pill) -->
+                <div class="header-action-group">
+                    <div class="user-account-widget">
+                        <span class="user-account-info">
+                            <strong id="current-user-name">Alex Chen</strong>
+                            <span class="user-role-label" id="current-user-badge">Student</span>
+                        </span>
+                        <button class="btn-account-switch" id="btn-switch-role" onclick="toggleRole()" title="Switch active demonstration account">
+                            Switch Role
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Title Hero Section (Matching "在 校 學 生" spacious typography in screenshot) -->
+    <div class="ntpu-title-banner">
+        <div class="container title-banner-inner">
+            <h1 class="spaced-page-heading">C A M P U S F I X</h1>
+            <div class="breadcrumb-trail">
+                <span>Home</span> / <span>Current Students</span> / <span class="active">Incident Management</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimalist Line-Art Action Grid (Matching the 4-column icon cards from https://new.ntpu.edu.tw/students) -->
+    <section class="ntpu-action-grid-section">
+        <div class="container">
+            <div class="action-grid-title">CAMPUS FIX SERVICES</div>
+            <div class="action-card-grid">
+                
+                <!-- Quick Service 1: Search & Track -->
+                <div class="service-icon-card active" id="card-nav-search" onclick="switchTab('tab-search-track')">
+                    <div class="service-svg-wrap">
+                        <svg viewBox="0 0 64 64" width="48" height="48" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="8" y="10" width="48" height="34" rx="3" />
+                            <line x1="24" y1="52" x2="40" y2="52" />
+                            <line x1="32" y1="44" x2="32" y2="52" />
+                            <circle cx="28" cy="27" r="6" />
+                            <line x1="32.5" y1="31.5" x2="38" y2="37" />
+                        </svg>
+                    </div>
+                    <div class="service-card-title">Search & Track</div>
+                    <div class="service-card-sub">Find existing issues & status</div>
+                </div>
+
+                <!-- Quick Service 2: Report a Problem -->
+                <div class="service-icon-card" id="card-nav-report" onclick="switchTab('tab-report')">
+                    <div class="service-svg-wrap">
+                        <svg viewBox="0 0 64 64" width="48" height="48" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 14 H16 A4 4 0 0 0 12 18 V52 A4 4 0 0 0 16 56 H48 A4 4 0 0 0 52 52 V18 A4 4 0 0 0 48 14 H42" />
+                            <rect x="22" y="8" width="20" height="10" rx="2" />
+                            <line x1="20" y1="28" x2="44" y2="28" />
+                            <line x1="20" y1="38" x2="36" y2="38" />
+                            <line x1="20" y1="46" x2="30" y2="46" />
+                        </svg>
+                    </div>
+                    <div class="service-card-title">Report Issue</div>
+                    <div class="service-card-sub">Submit facility defect report</div>
+                </div>
+
+                <!-- Quick Service 3: Staff Management -->
+                <div class="service-icon-card" id="card-nav-staff" onclick="switchTab('tab-staff')">
+                    <div class="service-svg-wrap">
+                        <svg viewBox="0 0 64 64" width="48" height="48" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M32 10 L48 16 V32 C48 44 32 54 32 54 C32 54 16 44 16 32 V16 Z" />
+                            <polyline points="26 32 30 36 38 28" />
+                        </svg>
+                    </div>
+                    <div class="service-card-title">Staff Portal</div>
+                    <div class="service-card-sub">Facility progress & resolution</div>
+                </div>
+
+                <!-- Quick Service 4: Reset Demonstration Data -->
+                <div class="service-icon-card" id="card-nav-reset" onclick="resetDemoData()">
+                    <div class="service-svg-wrap">
+                        <svg viewBox="0 0 64 64" width="48" height="48" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M52 32 A20 20 0 1 1 46 18 L52 24" />
+                            <polyline points="52 14 52 24 42 24" />
+                        </svg>
+                    </div>
+                    <div class="service-card-title">Reset Demo Data</div>
+                    <div class="service-card-sub">Restore clean seed records</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Alert / Toast Container -->
+    <div class="container" id="alert-container"></div>
+
+    <!-- Main Content Area -->
+    <main class="container main-content" id="main-content">
+
+        <!-- TAB 1: Search & Track Reports -->
+        <section id="tab-search-track" class="tab-pane active">
+            
+            <!-- Search & Filter Panel -->
+            <div class="ntpu-panel filter-panel">
+                <div class="panel-header">
+                    <div class="panel-header-title">
+                        <span class="panel-accent-bar"></span>
+                        <h3>Search Existing Campus Reports</h3>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p class="panel-guide-text">
+                        Check existing reports before submitting to avoid duplicate incident reports.
+                        <br><span class="guide-note">Combined Filter Rule: Keyword and Location behave with logical <strong>AND</strong> semantics (Title or Description matches Keyword AND Location matches selection).</span>
+                    </p>
+                    <div class="filter-controls-row">
+                        <div class="input-block">
+                            <label for="search-keyword">Keyword Search</label>
+                            <input type="text" id="search-keyword" class="minimal-input" placeholder="Search keywords: Wi-Fi, projector, leaking..." onkeyup="handleSearchKeyUp(event)">
+                        </div>
+                        <div class="input-block">
+                            <label for="filter-location">Campus Location</label>
+                            <select id="filter-location" class="minimal-select" onchange="performSearch()">
+                                <option value="">-- All Locations --</option>
+                                <option value="College of Business">College of Business</option>
+                                <option value="Library">Library</option>
+                                <option value="College of Law">College of Law</option>
+                                <option value="College of Social Sciences">College of Social Sciences</option>
+                                <option value="College of Electrical Engineering & Computer Science">College of Electrical Engineering & Computer Science</option>
+                                <option value="College of Humanities">College of Humanities</option>
+                                <option value="College of Public Affairs">College of Public Affairs</option>
+                                <option value="Student Dormitories">Student Dormitories</option>
+                                <option value="Sports Center & Gymnasium">Sports Center & Gymnasium</option>
+                                <option value="Downtown Taipei Campus">Downtown Taipei Campus</option>
+                            </select>
+                        </div>
+                        <div class="btn-group-filter">
+                            <button class="btn-ntpu-dark" onclick="performSearch()">Search</button>
+                            <button class="btn-ntpu-outline" onclick="resetFilters()">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports List Table Panel -->
+            <div class="ntpu-panel">
+                <div class="panel-header flex-between">
+                    <div>
+                        <h3 class="panel-title-text">Active Campus Problem Reports</h3>
+                        <span id="results-count-text" class="sub-count-text">Loading reports...</span>
+                    </div>
+                    <button class="btn-ntpu-accent" onclick="switchTab('tab-report')">
+                        + New Problem Report
+                    </button>
+                </div>
+                <div class="panel-body p-0">
+                    <div class="table-container">
+                        <table class="academic-table" id="reports-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 120px;">Report ID</th>
+                                    <th>Title & Description Summary</th>
+                                    <th style="width: 220px;">Location</th>
+                                    <th style="width: 180px;">Category</th>
+                                    <th style="width: 130px;">Status</th>
+                                    <th style="width: 160px;">Date Submitted</th>
+                                    <th style="width: 120px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reports-tbody">
+                                <tr>
+                                    <td colspan="7" class="text-center py-4 text-muted">Connecting to SQLite database...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Empty State View -->
+                    <div id="no-reports-msg" class="empty-state d-none">
+                        <div class="empty-icon-wrap">
+                            <svg viewBox="0 0 64 64" width="48" height="48" stroke="#9CA3AF" fill="none" stroke-width="2">
+                                <circle cx="32" cy="32" r="24" />
+                                <line x1="20" y1="20" x2="44" y2="44" />
+                            </svg>
+                        </div>
+                        <h4>No Reports Found</h4>
+                        <p class="text-muted">No reports matched your search filters. Try adjusting keywords or clear the location filter.</p>
+                        <button class="btn-ntpu-outline btn-sm" onclick="resetFilters()">Reset Search Filters</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: Submit a Problem Report -->
+        <section id="tab-report" class="tab-pane">
+            <div class="ntpu-panel max-w-760 mx-auto">
+                <div class="panel-header">
+                    <div class="panel-header-title">
+                        <span class="panel-accent-bar"></span>
+                        <h3>Submit a Campus Problem Report</h3>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p class="panel-guide-text">
+                        Please provide all four mandatory fields. The system validates all inputs and generates a unique tracking ID upon successful submission.
+                    </p>
+
+                    <form id="report-form" onsubmit="handleReportSubmit(event)" novalidate>
+                        <!-- Field 1: Title -->
+                        <div class="academic-form-group">
+                            <label for="form-title" class="field-label required">Report Title</label>
+                            <input type="text" id="form-title" name="title" class="minimal-input" placeholder="Brief issue summary (e.g., Room B102 projector lamp flickering)">
+                            <div class="error-feedback" id="error-title"></div>
+                        </div>
+
+                        <!-- Field 2: Location -->
+                        <div class="academic-form-group">
+                            <label for="form-location" class="field-label required">Campus Location</label>
+                            <select id="form-location" name="location" class="minimal-select">
+                                <option value="">-- Select Campus Building --</option>
+                                <option value="College of Business">College of Business</option>
+                                <option value="Library">Library</option>
+                                <option value="College of Law">College of Law</option>
+                                <option value="College of Social Sciences">College of Social Sciences</option>
+                                <option value="College of Electrical Engineering & Computer Science">College of Electrical Engineering & Computer Science</option>
+                                <option value="College of Humanities">College of Humanities</option>
+                                <option value="College of Public Affairs">College of Public Affairs</option>
+                                <option value="Student Dormitories">Student Dormitories</option>
+                                <option value="Sports Center & Gymnasium">Sports Center & Gymnasium</option>
+                                <option value="Downtown Taipei Campus">Downtown Taipei Campus</option>
+                            </select>
+                            <div class="error-feedback" id="error-location"></div>
+                        </div>
+
+                        <!-- Field 3: Category -->
+                        <div class="academic-form-group">
+                            <label for="form-category" class="field-label required">Category</label>
+                            <select id="form-category" name="category" class="minimal-select">
+                                <option value="">-- Select Category --</option>
+                                <option value="Classroom Equipment">Classroom Equipment (Projector, AC, Microphones, Audio)</option>
+                                <option value="Damaged Facilities">Damaged Facilities (Doors, Furniture, Lighting, Elevators)</option>
+                                <option value="Wi-Fi Failures">Wi-Fi Failures (Campus Wi-Fi, Eduroam, Ethernet ports)</option>
+                                <option value="Plumbing & Restroom">Plumbing & Restroom (Leaks, Water dispensers, Restrooms)</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="error-feedback" id="error-category"></div>
+                        </div>
+
+                        <!-- Field 4: Description -->
+                        <div class="academic-form-group">
+                            <label for="form-description" class="field-label required">Detailed Description</label>
+                            <textarea id="form-description" name="description" rows="5" class="minimal-textarea" placeholder="Detail the symptoms, exact room number, and when the issue occurs..."></textarea>
+                            <div class="error-feedback" id="error-description"></div>
+                        </div>
+
+                        <div class="form-actions-bar">
+                            <button type="submit" class="btn-ntpu-dark btn-lg" id="btn-submit-report">
+                                Submit Problem Report
+                            </button>
+                            <button type="button" class="btn-ntpu-outline" onclick="resetReportForm()">
+                                Clear Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: Staff Resolution Management Portal -->
+        <section id="tab-staff" class="tab-pane">
+            
+            <!-- Warning Notice if viewing under Student role -->
+            <div id="staff-restriction-warning" class="role-warning-banner">
+                <div class="banner-icon">🔒</div>
+                <div class="banner-text">
+                    <strong>Access Restriction Notice:</strong>
+                    You are currently viewing as <strong>Student Demo</strong>.
+                    Status updates and resolution notes are restricted to university staff.
+                    To test progress updates and official resolution closures, click <strong>"Switch Role"</strong> in the top header.
+                </div>
+            </div>
+
+            <div class="ntpu-panel">
+                <div class="panel-header flex-between">
+                    <div>
+                        <h3 class="panel-title-text">Facility Resolution Management</h3>
+                        <p class="panel-sub-text">Review reports, update progress (Submitted ➔ In Progress ➔ Resolved), and record mandatory resolution notes.</p>
+                    </div>
+                    <span class="access-level-tag" id="staff-portal-role-tag">Access: Student (Read-Only)</span>
+                </div>
+                <div class="panel-body p-0">
+                    <div class="table-container">
+                        <table class="academic-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 110px;">Report ID</th>
+                                    <th>Title & Location</th>
+                                    <th style="width: 160px;">Category</th>
+                                    <th style="width: 130px;">Status</th>
+                                    <th style="width: 250px;">Staff Operations</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staff-table-tbody">
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">Loading reports...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Report Details Modal -->
+    <div id="detail-modal" class="academic-modal-overlay d-none" onclick="handleModalBackdropClick(event)">
+        <div class="academic-modal-box">
+            <div class="modal-top">
+                <h4 class="modal-heading" id="modal-report-id">Report Details</h4>
+                <button type="button" class="modal-close-btn" onclick="closeDetailModal()">&times;</button>
+            </div>
+            <div class="modal-content-area" id="modal-content-body">
+                <!-- Dynamically populated -->
+            </div>
+            <div class="modal-bottom">
+                <button class="btn-ntpu-outline" onclick="closeDetailModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Status Update Modal -->
+    <div id="status-update-modal" class="academic-modal-overlay d-none" onclick="handleStatusModalBackdropClick(event)">
+        <div class="academic-modal-box">
+            <div class="modal-top">
+                <h4 class="modal-heading" id="update-modal-title">Update Report Status</h4>
+                <button type="button" class="modal-close-btn" onclick="closeStatusModal()">&times;</button>
+            </div>
+            <div class="modal-content-area">
+                <input type="hidden" id="update-modal-report-id">
+                <div class="academic-form-group">
+                    <label class="field-label">Target Incident</label>
+                    <div id="update-modal-summary" class="summary-display-box"></div>
+                </div>
+                <div class="academic-form-group">
+                    <label for="update-new-status" class="field-label required">Target Status</label>
+                    <select id="update-new-status" class="minimal-select" onchange="handleTargetStatusChange()">
+                        <option value="Submitted">Submitted</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+                <div class="academic-form-group" id="resolution-note-group">
+                    <label for="update-resolution-note" id="resolution-note-label" class="field-label">
+                        Official Resolution Note
+                        <span class="required-star" id="note-required-star">* (Required on Resolution)</span>
+                    </label>
+                    <textarea id="update-resolution-note" rows="4" class="minimal-textarea" placeholder="Detail the maintenance performed (e.g. Facility crew replaced the lamp on Thursday morning; confirmed operational)..."></textarea>
+                    <small class="field-hint" id="note-help-text">Marking a report as Resolved mandates a non-empty resolution note.</small>
+                    <div class="error-feedback" id="error-resolution-note"></div>
+                </div>
+            </div>
+            <div class="modal-bottom">
+                <button class="btn-ntpu-outline" onclick="closeStatusModal()">Cancel</button>
+                <button class="btn-ntpu-dark" onclick="submitStatusUpdate()">Confirm & Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official NTPU Academic Footer (Sanxia and Taipei Campus) -->
+    <footer class="ntpu-site-footer">
+        <div class="container footer-flex">
+            <div class="footer-col-left">
+                <div class="footer-univ-name">National Taipei University</div>
+                <div class="footer-addresses">
+                    <p><strong>Sanxia Main Campus:</strong> No. 151, Daxue Rd., Sanxia Dist., New Taipei City | Phone: (02) 8674-1111</p>
+                    <p><strong>Downtown Taipei Campus:</strong> No. 67, Sec. 3, Minsheng E. Rd., Zhongshan Dist., Taipei City | Phone: (02) 2500-9000</p>
+                </div>
+                <div class="footer-copy">
+                    &copy; 2026 National Taipei University. Software Engineering Agile Project (Team 04).
+                </div>
+            </div>
+            <div class="footer-col-right">
+                <div class="footer-badge">CampusFix 2.0</div>
+                <div class="footer-specs">Python Flask 3.1 &bull; SQLite Persistence &bull; NTPU Design Language</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application JavaScript -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
