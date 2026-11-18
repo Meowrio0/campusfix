@@ -52,7 +52,7 @@ erDiagram
 
 ## 2. Physical SQLite Schema (Data Definition Language)
 
-The physical table is created idempotently on server startup in [`database.py`](file:///C:/Users/phone/.gemini/antigravity/scratch/campusfix/database.py):
+The physical table is created idempotently on server startup in [`database.py`](../database.py):
 
 ```sql
 CREATE TABLE IF NOT EXISTS reports (

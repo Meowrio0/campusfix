@@ -13,7 +13,7 @@ The user interface follows the official visual identity of the [NTPU Portal](htt
 | :--- | :--- | :--- | :--- | :--- |
 | **LI (Chu)** | `chu91014` | Product Owner / Developer | Part C | Backlog management & prioritization, Keyword/location search, SQL wildcard escaping (`CF-11`, `CF-12`, `CF-20`), Tests `TC-06` ~ `TC-08` |
 | **王柏森 (Wang Baisen)** | `standardiuys` | Scrum Master / Developer | Part B | Scrum facilitation, Jira sprint & retro management, Unique report IDs & case-insensitive ID lookup (`CF-6`, `CF-9`, `CF-19`), Tests `TC-03`, `TC-05` |
-| **林健勛 (Lin Jianxun)** | `Meowrio0` | Developer / Tester | Part A | GitHub repository & CI coordination, Report submission & title length validation (`CF-5`, `CF-18`), Tests `TC-01`, `TC-02` |
+| **林健勛 (Lin Jianxun)** | `Meowrio0` | Developer / Tester | Part A | GitHub repository setup & team coordination, Report submission & title length validation (`CF-5`, `CF-18`), Tests `TC-01`, `TC-02` |
 | **Louis Imbert** | `Louis-ibt` | Developer / Tester | Part D | Staff role password authentication & SQLite persistence (`CF-7`, `CF-15`, `CF-21`), Tests `TC-04`, `TC-10` |
 | **Axel Bauer** | `Axel_Algo` | Developer / Tester | Part E | Staff status updates, mandatory resolution notes & demo reset guard (`CF-13`, `CF-14`, `CF-17`, `CF-22`), Test `TC-09` |
 
@@ -128,11 +128,12 @@ campusfix/
 │   └── test_E_reset_guard.py           # Part E: Demo reset staff guard tests (CF-22)
 └── docs/
     ├── DATABASE_ERD.md                 # Database Entity-Relationship Diagram & schema specs
-    └── reflections/                    # Individual team member reflections
+    ├── reflections/                    # Individual team member reflections
+    └── test-evidence/                  # Manual and automated test execution evidence
 ```
 
 ---
 
 ## AI Usage Statement
 
-Generative AI tools (Claude, Gemini / Antigravity, ChatGPT) were used during this project to assist with initial application scaffolding, defect analysis, unit test drafting, code review preparation, and documentation formatting. All generated code, defect fixes (Parts A–E), automated tests, and documentation were reviewed, executed, and verified by the respective team members on our local environments and through GitHub Pull Request reviews before merging into `main`.
+Generative AI tools (Claude, Gemini / Antigravity, ChatGPT) were used during this project to assist with initial application scaffolding, defect analysis, unit test drafting, code review preparation, and documentation formatting. All generated code, defect fixes (Parts A–E), automated tests, and documentation were reviewed, executed, and verified by the respective team members on our local environments. Changes were reviewed through pull requests; #5 and #10 were reviewed after merging.
