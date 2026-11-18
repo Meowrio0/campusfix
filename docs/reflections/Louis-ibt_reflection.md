@@ -1,0 +1,9 @@
+# Individual Reflection – Louis Imbert (Louis-ibt), Developer
+
+My technical contribution was Part D, the password required to switch to the staff role (Jira story CF-15, bug CF-21). Before the fix, anyone could click "Switch Role" and become staff. I fixed it in branch `fix/D-staff-password` and pull request #5. In `app.py`, `switch_role()` now requires a password, checked on the server against the `CAMPUSFIX_STAFF_PASSWORD` environment variable with `hmac.compare_digest`, so no password is written in the public repository. A missing or wrong password returns HTTP 403 and the role stays student; switching back to student needs no password. In `static/js/app.js`, `toggleRole()` asks for the password and shows the server error. I added `tests/test_D_staff_password.py` with seven tests, including an end-to-end check that a wrong password cannot update a report status. Before opening the pull request, I merged my branch locally with the A, B, C and E branches: no conflict, 32 tests passed. I also reviewed pull requests #1 (A) and #3 (B).
+
+One difficulty was that every test failed on my computer, even on `main`. By comparing with the original code, I found it was not my change but an incompatible Flask 2.0 and Werkzeug 2.2 installation. I created a clean virtual environment with Flask 3, and the suite passed.
+
+One improvement for next time is to wait for a review before merging. I merged my own pull request before anyone reviewed it, which broke our team rule, so I asked a teammate for a review afterwards.
+
+I used AI assistance to draft and review the code and this reflection. I reviewed and tested the changes myself and can explain them.
