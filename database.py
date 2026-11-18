@@ -105,10 +105,19 @@ def get_reports(keyword=None, location=None, db_path=None):
     query = "SELECT * FROM reports WHERE 1=1"
     params = []
     
-    if keyword and keyword.strip():
-        k = f"%{keyword.strip().lower()}%"
-        query += " AND (LOWER(title) LIKE ? OR LOWER(description) LIKE ?)"
-        params.extend([k, k])
+if keyword and keyword.strip():
+    escaped = keyword.strip().lower()
+    escaped = escaped.replace("\\", "\\\\")
+    escaped = escaped.replace("%", "\\%")
+    escaped = escaped.replace("_", "\\_")
+
+    k = f"%{escaped}%"
+    query += (
+        " AND (LOWER(title) LIKE ? ESCAPE '\\' "
+        "OR LOWER(description) LIKE ? ESCAPE '\\')"
+    )
+    params.extend([k, k])
+
         
     if location and location.strip() and location != "All Locations":
         query += " AND location = ?"
