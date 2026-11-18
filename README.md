@@ -128,8 +128,7 @@ campusfix/
 │   └── test_E_reset_guard.py           # Part E: Demo reset staff guard tests (CF-22)
 └── docs/
     ├── DATABASE_ERD.md                 # Database Entity-Relationship Diagram & schema specs
-    ├── reflections/                    # Individual team member reflections
-    └── test-evidence/                  # Manual and automated test execution evidence
+    └── reflections/                    # Individual team member reflections
 ```
 
 ---
