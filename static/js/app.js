@@ -60,11 +60,19 @@ async function fetchCurrentUser() {
 
 async function toggleRole() {
     const nextRole = (currentRole === 'student') ? 'staff' : 'student';
+    const payload = { role: nextRole };
+    if (nextRole === 'staff') {
+        const password = window.prompt('Enter the staff password to switch to the staff account:');
+        if (password === null) {
+            return; // User cancelled the prompt
+        }
+        payload.password = password;
+    }
     try {
         const res = await fetch('/api/auth/switch', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ role: nextRole })
+            body: JSON.stringify(payload)
         });
         const data = await res.json();
         if (data.success) {
@@ -73,6 +81,8 @@ async function toggleRole() {
             updateUserRoleUI();
             showAlert(`Switched active account to: ${currentUser.name}`, 'info');
             loadReports(); // Refresh tables with updated action permissions
+        } else {
+            showAlert(data.error || 'Role switch was refused.', 'danger');
         }
     } catch (err) {
         showAlert('Failed to switch demonstration role. Please try again.', 'danger');
