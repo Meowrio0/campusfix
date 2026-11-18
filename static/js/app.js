@@ -85,6 +85,7 @@ function updateUserRoleUI() {
     const warningBox = document.getElementById('staff-restriction-warning');
     const staffRoleTag = document.getElementById('staff-portal-role-tag');
     const userName = document.getElementById('current-user-name');
+    const resetCard = document.getElementById('card-nav-reset');
 
     if (userName && currentUser) {
         userName.textContent = currentUser.name.split(' (')[0];
@@ -98,6 +99,11 @@ function updateUserRoleUI() {
         if (switchBtn) switchBtn.textContent = 'Switch to Student';
         if (warningBox) warningBox.classList.add('d-none');
         if (staffRoleTag) staffRoleTag.textContent = 'Facility Access: Authorized';
+        if (resetCard) {
+            resetCard.style.opacity = '1';
+            resetCard.style.cursor = 'pointer';
+            resetCard.title = 'Restore clean seed records';
+        }
     } else {
         if (badge) {
             badge.className = 'user-role-label role-student-label';
@@ -106,6 +112,11 @@ function updateUserRoleUI() {
         if (switchBtn) switchBtn.textContent = 'Switch to Staff';
         if (warningBox) warningBox.classList.remove('d-none');
         if (staffRoleTag) staffRoleTag.textContent = 'Access: Student (Read-Only)';
+        if (resetCard) {
+            resetCard.style.opacity = '0.55';
+            resetCard.style.cursor = 'not-allowed';
+            resetCard.title = 'Staff Role Required';
+        }
     }
 }
 
@@ -550,9 +561,13 @@ async function resetDemoData() {
     try {
         const res = await fetch('/api/reset-demo', { method: 'POST' });
         const data = await res.json();
-        if (data.success) {
+        if (res.status === 200 && data.success) {
             showAlert('Demonstration database reset successfully.', 'info');
             await loadReports();
+        } else if (res.status === 403) {
+            showAlert(data.error || 'Access denied: Staff authorization required.', 'danger');
+        } else {
+            showAlert(data.error || 'Failed to reset demo data.', 'danger');
         }
     } catch (err) {
         showAlert('Failed to reset demo data.', 'danger');

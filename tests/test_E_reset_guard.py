@@ -79,6 +79,8 @@ class ResetDemoTestCase(unittest.TestCase):
 
     # TEST 6: Student role rejected with 403 Forbidden
     def test_reset_denied_for_student(self):
+        database.create_report("Student Issue", "Library", "Wi-Fi Failures", "Details")
+
         with self.client.session_transaction() as sess:
             sess['role'] = 'student'
 
@@ -86,6 +88,9 @@ class ResetDemoTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 403)
         data = res.get_json()
         self.assertFalse(data.get('success'))
+
+        titles = [r['title'] for r in database.get_reports()]
+        self.assertIn("Student Issue", titles, "Custom reports must remain intact when reset is denied")
 
 
 if __name__ == '__main__':
