@@ -8,6 +8,7 @@ tracking, keyword/location search, and staff resolution management.
 """
 
 import os
+import hmac
 from flask import Flask, request, jsonify, render_template, session
 from database import init_db, create_report, get_report_by_id, get_reports, update_report_status, reset_and_seed
 
@@ -64,7 +65,9 @@ def get_current_user():
 def switch_role():
     """
     Switches demonstration session between 'student' and 'staff'.
-    Allows convenient testing of staff-restricted features without full SSO.
+    Switching to 'staff' requires the password stored in the
+    CAMPUSFIX_STAFF_PASSWORD environment variable (never hard-coded in the repo).
+    Switching back to 'student' needs no password.
     """
     data = request.get_json(silent=True) or {}
     target_role = data.get('role', 'student')
@@ -72,6 +75,19 @@ def switch_role():
     if target_role not in DEMO_ACCOUNTS:
         return jsonify({'success': False, 'error': f'Invalid role: {target_role}'}), 400
         
+    if target_role == 'staff':
+        expected_password = os.environ.get('CAMPUSFIX_STAFF_PASSWORD', '')
+        provided_password = data.get('password', '')
+        if not isinstance(provided_password, str):
+            provided_password = ''
+        if not expected_password:
+            return jsonify({
+                'success': False,
+                'error': 'Staff access is disabled: CAMPUSFIX_STAFF_PASSWORD is not configured on the server.'
+            }), 403
+        if not hmac.compare_digest(provided_password.encode('utf-8'), expected_password.encode('utf-8')):
+            return jsonify({'success': False, 'error': 'Incorrect staff password.'}), 403
+
     session['role'] = target_role
     session['email'] = DEMO_ACCOUNTS[target_role]['email']
     session['name'] = DEMO_ACCOUNTS[target_role]['name']
