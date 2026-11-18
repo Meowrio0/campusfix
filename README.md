@@ -35,9 +35,26 @@ pip install flask
 ```
 
 ### 2. Run the Application
+Switching to the staff account requires a password (Part D, CF-15). The password is **not stored in the repository**: the server reads it from the `CAMPUSFIX_STAFF_PASSWORD` environment variable, so set it before starting the app (choose any value):
+
 ```bash
+# macOS / Linux / Git Bash
+export CAMPUSFIX_STAFF_PASSWORD="choose-a-password"
 python app.py
 ```
+```powershell
+# Windows PowerShell
+$env:CAMPUSFIX_STAFF_PASSWORD = "choose-a-password"
+python app.py
+```
+```bat
+:: Windows Command Prompt (cmd)
+set CAMPUSFIX_STAFF_PASSWORD=choose-a-password
+python app.py
+```
+
+If the variable is not set, the app still runs, but switching to staff is refused for everyone (HTTP 403).
+
 Open your web browser and navigate to:
 👉 **`http://127.0.0.1:5000`**
 
@@ -61,7 +78,7 @@ OK
 
 ## Demonstration Accounts
 
-As specified in the assignment handout, predefined demonstration accounts are provided. You can switch between roles in **1 click** using the top-right role switcher on the navigation bar:
+As specified in the assignment handout, predefined demonstration accounts are provided. Use the **Switch Role** button at the top right of the navigation bar. Switching to staff asks for the staff password (the value of `CAMPUSFIX_STAFF_PASSWORD`, see Quick Start step 2); switching back to student needs no password:
 
 1. **Student Account (`student@ntpu.edu.tw`)**:
    - Role: `student`
@@ -70,6 +87,7 @@ As specified in the assignment handout, predefined demonstration accounts are pr
 
 2. **Staff Account (`staff@ntpu.edu.tw`)**:
    - Role: `staff` (Office of General Affairs / Facility Division)
+   - Access: requires the staff password. A missing or wrong password is refused (`403 Forbidden`) and the account stays student.
    - Permissions: Can review all incoming reports, change status (`Submitted` ➔ `In Progress` ➔ `Resolved`), and provide mandatory resolution notes upon closing an issue.
 
 ---
