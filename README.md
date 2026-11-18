@@ -9,12 +9,13 @@ The user interface follows the official visual identity of the [NTPU Portal](htt
 
 ## Team Members & Roles (Team 04)
 
-| Name | Role | Student ID | Primary Responsibilities |
-| :--- | :--- | :--- | :--- |
-| **Alex Dupont** | Product Owner / Developer | 41271001 | Backlog ordering, Scope decisions, Flask API routing, Sprint planning |
-| **Béatrice Lin** | Scrum Master / Developer | 41271002 | Scrum ceremony facilitation, Jira board management, Frontend UI/UX, NTPU theme |
-| **Chen Wei** | Developer / Tester | 41271003 | SQLite database persistence, Case-insensitive search, Test suite (TC-01 ~ TC-06) |
-| **David Martin** | Developer / Tester | 41271004 | Staff authorization & resolution workflow, Validation rules, Test suite (TC-07 ~ TC-11) |
+| Name | GitHub | Role | Part | Primary Responsibilities |
+| :--- | :--- | :--- | :--- | :--- |
+| **LI (Chu)** | `chu91014` | Product Owner / Developer | Part C | Backlog management & prioritization, Keyword/location search, SQL wildcard escaping (`CF-11`, `CF-12`, `CF-20`), Tests `TC-06` ~ `TC-08` |
+| **王柏森 (Wang Baisen)** | `standardiuys` | Scrum Master / Developer | Part B | Scrum facilitation, Jira sprint & retro management, Unique report IDs & case-insensitive ID lookup (`CF-6`, `CF-9`, `CF-19`), Tests `TC-03`, `TC-05` |
+| **林健勛 (Lin Jianxun)** | `Meowrio0` | Developer / Tester | Part A | GitHub repository & CI coordination, Report submission & title length validation (`CF-5`, `CF-18`), Tests `TC-01`, `TC-02` |
+| **Louis Imbert** | `Louis-ibt` | Developer / Tester | Part D | Staff role password authentication & SQLite persistence (`CF-7`, `CF-15`, `CF-21`), Tests `TC-04`, `TC-10` |
+| **Axel Bauer** | `Axel_Algo` | Developer / Tester | Part E | Staff status updates, mandatory resolution notes & demo reset guard (`CF-13`, `CF-14`, `CF-17`, `CF-22`), Test `TC-09` |
 
 ---
 
@@ -61,17 +62,9 @@ Open your web browser and navigate to:
 The database (`campusfix.db`) initializes automatically with realistic NTPU campus reports.
 
 ### 3. Run Automated Tests
-Execute the comprehensive test suite covering all 10 required test cases + edge cases:
+Execute the comprehensive test suite covering all required test cases and regression tests:
 ```bash
 python -m unittest discover -s tests -p "test_*.py"
-```
-Output:
-```text
-...........
-----------------------------------------------------------------------
-Ran 11 tests in 0.200s
-
-OK
 ```
 
 ---
@@ -83,33 +76,31 @@ As specified in the assignment handout, predefined demonstration accounts are pr
 1. **Student Account (`student@ntpu.edu.tw`)**:
    - Role: `student`
    - Permissions: Can submit new problem reports, search existing reports, view report details.
-   - Restricted: Cannot modify report status or write resolution notes (server returns `403 Forbidden` if attempted).
+   - Restricted: Cannot modify report status, write resolution notes, or reset the demo database (server returns `403 Forbidden` if attempted).
 
 2. **Staff Account (`staff@ntpu.edu.tw`)**:
    - Role: `staff` (Office of General Affairs / Facility Division)
    - Access: requires the staff password. A missing or wrong password is refused (`403 Forbidden`) and the account stays student.
-   - Permissions: Can review all incoming reports, change status (`Submitted` ➔ `In Progress` ➔ `Resolved`), and provide mandatory resolution notes upon closing an issue.
+   - Permissions: Can review all incoming reports, change status (`Submitted` ➔ `In Progress` ➔ `Resolved`), provide mandatory resolution notes upon closing an issue, and reset demo data.
 
 ---
 
 ## Features Delivered Across Sprints
 
 ### Sprint 1: Deliver Basic Workflow
-- [x] **CF-10**: Problem report submission form (Title, Location, Category, Description).
-- [x] **CF-11**: Strict field validation with individual error messages for missing/whitespace inputs.
-- [x] **CF-12**: Automated generation of unique human-readable report IDs (e.g. `CF-1001`, `CF-1002`).
-- [x] **CF-13**: Persistent SQLite storage surviving page refresh and server restarts.
-- [x] **CF-14**: Live status and detailed view (`Submitted`, `In Progress`, `Resolved`).
-- [x] **CF-30**: Initial staff status transition capability.
+- [x] **CF-5**: Problem report submission form (Title, Location, Category, Description) with strict field validation and 100-character title limit (**CF-18**).
+- [x] **CF-6**: Automated generation of unique human-readable report IDs (e.g. `CF-1001`, `CF-1002`).
+- [x] **CF-7**: Persistent SQLite storage surviving page refresh and server restarts.
+- [x] **CF-9**: Live status and detailed view (`Submitted`, `In Progress`, `Resolved`) with case-insensitive ID lookup (**CF-19**).
+- [x] **CF-13**: Staff status transition capability (`Submitted` ➔ `In Progress` ➔ `Resolved`).
 
 ### Sprint 2: Respond to Customer Feedback (Priority Change)
 *Customer feedback: "Students sometimes submit a problem that already exists. Let them search existing reports by keyword or location before creating a new report."*
-- [x] **CF-21**: Case-insensitive keyword search in both `title` and `description`.
-- [x] **CF-22**: Location dropdown filtering across campus buildings.
-- [x] **CF-23**: Clean handling of zero-match search results with user guidance.
-- [x] **CF-24**: Combined filter logical **AND** behavior (keyword matches title/description AND location matches selection).
-- [x] **CF-31**: Mandatory resolution note enforcement when transitioning a report to `Resolved`.
-- [x] **CF-32**: Backend role enforcement rejecting non-staff status updates with `403 Forbidden`.
+- [x] **CF-11**: Case-insensitive keyword search in both `title` and `description` with SQL wildcard escaping (**CF-20**).
+- [x] **CF-12**: Location dropdown filtering and combined logical **AND** filter behavior with clean zero-match handling.
+- [x] **CF-14**: Mandatory resolution note enforcement when transitioning a report to `Resolved`.
+- [x] **CF-15**: Backend role enforcement and password-protected staff switching (**CF-21**), rejecting non-staff status updates with `403 Forbidden`.
+- [x] **CF-17**: Staff-only restriction on `/api/reset-demo` (**CF-22**), preventing students from erasing demo data (`403 Forbidden`).
 
 ---
 
@@ -117,27 +108,31 @@ As specified in the assignment handout, predefined demonstration accounts are pr
 
 ```
 campusfix/
-├── app.py                     # Flask backend with REST endpoints & role-based session logic
-├── database.py                # SQLite persistence helper, queries, search AND logic, seeding
-├── campusfix.db               # SQLite database file (created on initial launch)
-├── .gitignore                 # Git ignore rules
+├── app.py                              # Flask backend with REST endpoints & role-based session logic
+├── database.py                         # SQLite persistence helper, queries, search AND logic, seeding
+├── seed_data.py                        # Initial NTPU campus seed reports
+├── .gitignore                          # Git ignore rules
 ├── static/
 │   ├── css/
-│   │   └── style.css          # NTPU visual identity: deep blue #003366, gold, cards, responsive
+│   │   └── style.css                   # NTPU visual identity: deep blue #003366, gold, cards, responsive
 │   └── js/
-│       └── app.js             # Client logic: validation, AJAX search, modals, role toggling
+│       └── app.js                      # Client logic: validation, AJAX search, modals, role toggling
 ├── templates/
-│   └── index.html             # Clean NTPU-themed single page application
+│   └── index.html                      # Clean NTPU-themed single page application
 ├── tests/
-│   ├── __init__.py
-│   └── test_campusfix.py      # Automated unittest suite covering 11 test scenarios
+│   ├── test_campusfix.py               # Automated unittest suite covering TC-01 to TC-11
+│   ├── test_A_title_length.py          # Part A: Title length limit tests (CF-18)
+│   ├── test_B_report_id_case.py        # Part B: Case-insensitive report ID lookup tests (CF-19)
+│   ├── test_C_search_escape.py         # Part C: SQL LIKE wildcard escaping tests (CF-20)
+│   ├── test_D_staff_password.py        # Part D: Staff password authentication tests (CF-21)
+│   └── test_E_reset_guard.py           # Part E: Demo reset staff guard tests (CF-22)
 └── docs/
-    ├── README.md              # Project documentation
-    ├── PROJECT_IMPLEMENTATION_GUIDE_A_TO_Z.md # End-to-end implementation roadmap & realistic time breakdown
-    ├── DATABASE_ERD.md        # Database Entity-Relationship Diagram (Mermaid) & schema specs
-    ├── TEAM_REPORT.md         # Formal 5-page Team Report (Agile process, Sprints, Retrospectives)
-    ├── JIRA_BACKLOG_GUIDE.md  # Jira Scrum guide: Epics, 10 Stories, Dailies, Bugs, DoD
-    ├── TEST_RECORD.md         # Formal Test Record with 10 required cases + Bug reproduction logs
-    ├── INDIVIDUAL_REFLECTIONS.md # 4 individual student reflection essays (200-300 words each)
-    └── DEMO_SCRIPT.md         # 7-minute demonstration oral presentation guide
+    ├── DATABASE_ERD.md                 # Database Entity-Relationship Diagram & schema specs
+    └── reflections/                    # Individual team member reflections
 ```
+
+---
+
+## AI Usage Statement
+
+Generative AI tools (Claude, Gemini / Antigravity, ChatGPT) were used during this project to assist with initial application scaffolding, defect analysis, unit test drafting, code review preparation, and documentation formatting. All generated code, defect fixes (Parts A–E), automated tests, and documentation were reviewed, executed, and verified by the respective team members on our local environments and through GitHub Pull Request reviews before merging into `main`.

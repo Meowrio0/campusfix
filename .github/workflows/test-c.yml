@@ -1,0 +1,28 @@
+
+name: CampusFix C Tests
+
+on:
+  push:
+    branches:
+      - fix/C-search-escape
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install flask
+
+      - name: Run C tests
+        run: |
+          python -m unittest discover -s tests -p "test_C_search_escape.py" -v

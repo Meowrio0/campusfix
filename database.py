@@ -82,7 +82,8 @@ def get_report_by_id(report_id_or_num, db_path=None):
     conn = get_connection(db_path)
     cursor = conn.cursor()
     
-    if str(report_id_or_num).startswith("CF-"):
+    report_id_or_num = str(report_id_or_num).upper()
+    if report_id_or_num.startswith("CF-"):
         cursor.execute("SELECT * FROM reports WHERE report_id = ?", (report_id_or_num,))
     else:
         cursor.execute("SELECT * FROM reports WHERE id = ?", (report_id_or_num,))
@@ -106,9 +107,18 @@ def get_reports(keyword=None, location=None, db_path=None):
     params = []
     
     if keyword and keyword.strip():
-        k = f"%{keyword.strip().lower()}%"
-        query += " AND (LOWER(title) LIKE ? OR LOWER(description) LIKE ?)"
+        escaped = keyword.strip().lower()
+        escaped = escaped.replace("\\", "\\\\")
+        escaped = escaped.replace("%", "\\%")
+        escaped = escaped.replace("_", "\\_")
+    
+        k = f"%{escaped}%"
+        query += (
+            " AND (LOWER(title) LIKE ? ESCAPE '\\' "
+            "OR LOWER(description) LIKE ? ESCAPE '\\')"
+        )
         params.extend([k, k])
+
         
     if location and location.strip() and location != "All Locations":
         query += " AND location = ?"
@@ -130,7 +140,8 @@ def update_report_status(report_id_or_num, new_status, resolution_note="", db_pa
     cursor = conn.cursor()
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    if str(report_id_or_num).startswith("CF-"):
+    report_id_or_num = str(report_id_or_num).upper()
+    if report_id_or_num.startswith("CF-"):
         query = "UPDATE reports SET status = ?, resolution_note = ?, updated_at = ? WHERE report_id = ?"
     else:
         query = "UPDATE reports SET status = ?, resolution_note = ?, updated_at = ? WHERE id = ?"
