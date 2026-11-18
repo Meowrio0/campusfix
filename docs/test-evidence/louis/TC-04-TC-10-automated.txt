@@ -1,0 +1,15 @@
+Automated tests - tester: Louis Imbert - 2026-11-18 21:34 - main 25f7f72
+
+tests/test_campusfix.py::CampusFixTestCase::test_04_persistence_after_restart PASSED [ 11%]
+tests/test_campusfix.py::CampusFixTestCase::test_10_student_prevented_from_staff_update_actions PASSED [ 22%]
+tests/test_D_staff_password.py::StaffPasswordTestCase::test_staff_access_disabled_when_password_not_configured PASSED [ 33%]
+tests/test_D_staff_password.py::StaffPasswordTestCase::test_staff_obtained_with_password_can_update_status PASSED [ 44%]
+tests/test_D_staff_password.py::StaffPasswordTestCase::test_switch_back_to_student_needs_no_password PASSED [ 55%]
+tests/test_D_staff_password.py::StaffPasswordTestCase::test_switch_to_staff_with_correct_password_succeeds PASSED [ 66%]
+tests/test_D_staff_password.py::StaffPasswordTestCase::test_switch_to_staff_with_non_string_password_is_refused PASSED [ 77%]
+tests/test_D_staff_password.py::StaffPasswordTestCase::test_switch_to_staff_with_wrong_password_is_refused PASSED [ 88%]
+tests/test_D_staff_password.py::StaffPasswordTestCase::test_switch_to_staff_without_password_is_refused PASSED [100%]
+============================== 9 passed in 0.49s ==============================
+
+Full suite:
+27 passed in 1.06s

@@ -1,0 +1,19 @@
+TC-10 server-side check - tester: Louis Imbert - 2026-11-18 21:33
+Server: python app.py (main 25f7f72), http://127.0.0.1:5000
+
+$ GET /api/auth/current
+role = student
+
+$ GET /api/reports/CF-1006  (before)
+status = Submitted | updated_at = 2026-11-18 21:32:01
+
+$ POST /api/reports/CF-1006/status  {"status": "Resolved", "resolution_note": "student attempt"}
+{
+  "error": "Access denied: Only university staff members are permitted to update report status.",
+  "success": false
+}
+
+HTTP 403
+
+$ GET /api/reports/CF-1006  (after)
+status = Submitted | updated_at = 2026-11-18 21:32:01
