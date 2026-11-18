@@ -107,6 +107,9 @@ def list_reports():
         }
     })
 
+# Part A: maximum number of characters allowed in a report title
+MAX_TITLE_LENGTH = 100
+
 @app.route('/api/reports', methods=['POST'])
 def submit_report():
     """
@@ -126,6 +129,8 @@ def submit_report():
     errors = {}
     if not isinstance(title, str) or not title.strip():
         errors['title'] = 'Title is required. Please provide a brief title.'
+    elif len(title.strip()) > MAX_TITLE_LENGTH:
+        errors['title'] = f'Title must be {MAX_TITLE_LENGTH} characters or fewer.'
     if not isinstance(location, str) or not location.strip():
         errors['location'] = 'Campus location is required.'
     if not isinstance(category, str) or not category.strip():

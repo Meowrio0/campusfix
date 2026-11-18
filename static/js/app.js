@@ -322,9 +322,13 @@ async function handleReportSubmit(e) {
     const description = document.getElementById('form-description').value.trim();
 
     // Client-side validation check
+    const MAX_TITLE_LENGTH = 100; // Part A: must match MAX_TITLE_LENGTH in app.py
     let hasError = false;
     if (!title) {
         setFieldError('title', 'Title is required. Please provide a brief title.');
+        hasError = true;
+    } else if (title.length > MAX_TITLE_LENGTH) {
+        setFieldError('title', `Title must be ${MAX_TITLE_LENGTH} characters or fewer.`);
         hasError = true;
     }
     if (!location) {
