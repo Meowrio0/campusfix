@@ -16,6 +16,8 @@ class ResetDemoTestCase(unittest.TestCase):
 
         app.config['TESTING'] = True
         self.client = app.test_client()
+        with self.client.session_transaction() as sess:
+            sess['role'] = 'staff'
 
     def tearDown(self):
         """Clean up the temporary database after the test."""
@@ -74,6 +76,16 @@ class ResetDemoTestCase(unittest.TestCase):
     def test_reset_requires_post_method(self):
         res = self.client.get('/api/reset-demo')
         self.assertEqual(res.status_code, 405)
+
+    # TEST 6: Student role rejected with 403 Forbidden
+    def test_reset_denied_for_student(self):
+        with self.client.session_transaction() as sess:
+            sess['role'] = 'student'
+
+        res = self.client.post('/api/reset-demo')
+        self.assertEqual(res.status_code, 403)
+        data = res.get_json()
+        self.assertFalse(data.get('success'))
 
 
 if __name__ == '__main__':

@@ -218,6 +218,11 @@ def update_status(report_id):
 @app.route('/api/reset-demo', methods=['POST'])
 def reset_demo():
     """Resets the SQLite database with fresh seed data for quick class demonstration."""
+    if session.get('role', 'student') != 'staff':
+        return jsonify({
+            'success': False,
+            'error': 'Access denied: Only university staff members are permitted to reset demo data.'
+        }), 403
     reset_and_seed()
     return jsonify({
         'success': True,
