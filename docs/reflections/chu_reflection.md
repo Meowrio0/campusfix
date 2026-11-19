@@ -12,4 +12,14 @@ One difficulty I faced was that I was initially unfamiliar with GitHub and termi
 Overall, this project taught me that software development involves more than writing code. Effective communication, teamwork, testing, and task management are equally important. In future projects, I hope to improve my technical skills and become more efficient in Agile team collaboration.
 
 I used AI assistance to understand GitHub operations, troubleshoot issues, and improve the wording of this reflection. I reviewed the content and participated in the development and review process myself.
-  
+
+In addition, I participated in PR #2 to fix Issue C, where searching for `%` or `_` incorrectly returned all reports because these characters were treated as SQL wildcards.
+
+I also worked with the related test cases to verify that special characters were handled correctly.
+
+During the code review, an indentation error was identified in `database.py`, which helped me realize the importance of careful code review and testing.
+
+In the future, I will run tests before submitting pull requests, check code changes more carefully, and provide clearer test evidence.
+
+I will also improve communication by linking Jira issues, GitHub pull requests, and test results to make the development process more organized and traceable.
+
